@@ -1,0 +1,41 @@
+{
+    "name": "sandeepchowdary7/laraeventful",
+    "description": "Simple and extensible Eventful API PHP Client with Laravel Support based on Guzzle 6",
+    "type": "library",
+    "keywords": [
+        "eventful",
+        "laravel",
+        "client",
+        "api",
+        "php"
+    ],
+    "homepage": "https://github.com/sandeepchowdary7/laraeventful",
+    "require": {
+        "php": "^7.1",
+        "guzzlehttp/guzzle": "^6.3",
+        "laravel/framework": "5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sandeep",
+            "email": "sxk80270@ucmo.edu"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "Sandeepchowdary7\\Laraeventful\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sandeepchowdary7\\Laraeventful\\LaraeventfulServiceProvider"
+            ],
+            "aliases": {
+                "Eventful": "Sandeepchowdary7\\Laraeventful\\Facade\\LaraeventfulFacade"
+            }
+        }
+    }
+}
