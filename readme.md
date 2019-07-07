@@ -26,11 +26,6 @@ php artisan vendor:publish --provider="Sandeepchowdary7\Laraeventful\Laraeventfu
 EVENTFUL_APP_KEY=your app key here
 ```
 
-4) Add your Eventful Account ID  to the config file located in app/config/eventful.php. I recommend you add this key to your project .env file instead of directly adding it to your config file.
-```
-EVENTFUL_ACCOUNT_ID=Your Account ID here
-```
-
 ### Laravel <= 5.4
 1) Add the following line to your providers array in your `config/app.php` file
 ```
@@ -47,25 +42,18 @@ Sandeepchowdary7\Laraeventful\LaraeventfulServiceProvider::class,
 
 ### Init Eventful rqst
 ```
- $city = new Eventful();
+ $event = new Eventful();
 ```
 
-### For city info
+### For City Events Info
 
 ```
- $city = new Eventful();
- $city->getCity($cityName);
-```
-
-### For city Food info
-
-```
- $cityFood = new Eventful();
- $cityFood->getCityFood($cityName);
+ $event = new Eventful();
+ $event->getCityEvents($cityName);
 ```
 
 For more information about the REST API go to this link:
-https://www.eventful.com
+http://api.eventful.com/
 
 
 
