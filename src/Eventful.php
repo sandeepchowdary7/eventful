@@ -7,12 +7,12 @@ use Sandeepchowdary7\Laraeventful\Interfaces\EventfulInterface;
 
 Class Eventful implements EventfulInterface
 {
-    private $api_token       = '';
+    private $app_key       = '';
     private $account_id      = '';
     private $error_code      = '';
     private $error_message   = '';
     private $user_agent      = 'Eventful API Laravel Wrapper (eventful.com)';
-    private $api_end_point   = 'https://www.eventful.com/api/20181213/';
+    private $api_end_point   = 'http://api.eventful.com/json/';
     private $recent_req_info = array();
     private $timeout         = 30;
     private $connect_timeout = 30;
@@ -26,28 +26,31 @@ Class Eventful implements EventfulInterface
     /**
     * Accepts the token and saves it internally.
     *
-    * @param string $api_token e.g. qsor48ughrjufyu2dadraasfa1212424
+    * @param string $app_key e.g. qsor48ughrjufyu2dadraasfa1212424
     * @throws Exception
     */
-    public function __construct($api_token = null,$account_id = null) {
-        if (!$api_token) {
-            $api_token = config('eventful.api_token', 'api_token');
+    public function __construct($app_key = null,$account_id = null) {
+        if (!$app_key) {
+            $app_key = config('eventful.app_key', 'app_key');
         }
-        if (!$account_id) {
-            $account_id = config('eventful.account_id', 'account_id');
-        }
-        $api_token = trim($api_token);
-        $account_id = trim($account_id);
 
-        if (empty($api_token) || !preg_match('#^[\w-]+$#si', $api_token)) {
+        // if (!$account_id) {
+        //     $account_id = config('eventful.account_id', 'account_id');
+        // }
+
+        $app_key = trim($app_key);
+        // $account_id = trim($account_id);
+
+        if (empty($app_key) || !preg_match('#^[\w-]+$#si', $app_key)) {
             throw new Exception("Missing or invalid Eventful API token.");
         }
-        if (empty($account_id)) {
-            throw new Exception("Missing or invalid Eventful Account ID.");
-        }
 
-        $this->api_token = $api_token;
-        $this->account_id = $account_id;
+        // if (empty($account_id)) {
+        //     throw new Exception("Missing or invalid Eventful Account ID.");
+        // }
+
+        $this->app_key = $app_key;
+        // $this->account_id = $account_id;
     }
 
     /**
@@ -55,12 +58,12 @@ Class Eventful implements EventfulInterface
     * @param array
     * @return array
     */
-    public function getCity($cityName) {
+    public function getCityEvents($cityName) {
 
         if (!$cityName) 
             throw new Exception("Invalid input.");
 
-        $url = $this->api_end_point . "location.json?id=$cityName&account=$this->account_id&token=$this->api_token";
+        $url = $this->api_end_point . "events/search?location=$cityName&app_key=$this->app_key";
         $res = $this->makeRequest($url, $cityName);
 
         if (!empty($res['buffer'])) {
@@ -74,34 +77,6 @@ Class Eventful implements EventfulInterface
         : empty($raw_json['results']['0'])
         ? array()
         : $raw_json['results']['0'];
-
-        return $data;
-    }
-
-    /**
-    * Requests the accounts for the given account.
-    * Parses the response JSON and returns an array which contains: id, name, created_at etc
-    * @param void
-    * @return bool/array
-    */
-    public  function getCityFood($cityName) {
-
-        if (!$cityName) 
-            throw new Exception("Invalid input.");
-
-        $url = $this->api_end_point . "poi.json?location_id=$cityName&tag_labels=eatingout&count=10&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account=$this->account_id&token=$this->api_token";
-
-        $res = $this->makeRequest($url, $cityName);
-
-        if (!empty($res['buffer'])) {
-            $raw_json = json_decode($res['buffer'], true);
-        }
-
-        $data = empty($raw_json)
-        ? false
-        : empty($raw_json['results'])
-        ? array()
-        : $raw_json['results'];
 
         return $data;
     }
@@ -136,7 +111,7 @@ Class Eventful implements EventfulInterface
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout);
-        curl_setopt($ch, CURLOPT_USERPWD, $this->api_token . ":" . ''); // no pwd
+        curl_setopt($ch, CURLOPT_USERPWD, $this->app_key . ":" . ''); // no pwd
         curl_setopt($ch, CURLOPT_USERAGENT, empty($params['user_agent']) ? $this->user_agent : $params['user_agent']);
 
         // if ($req_method == self::POST) { // We want post but no params to supply. Probably we have a nice link structure which includes all the info.

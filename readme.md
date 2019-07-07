@@ -23,7 +23,7 @@ php artisan vendor:publish --provider="Sandeepchowdary7\Laraeventful\Laraeventfu
 
 3) Add your Eventful API token to the config file located in app/config/eventful.php. I recommend you add this key to your project .env file instead of directly adding it to your config file. You can find your API token at the user settings page (https://www.eventful.com).
 ```
-EVENTFUL_API_TOKEN=your token here
+EVENTFUL_APP_KEY=your app key here
 ```
 
 4) Add your Eventful Account ID  to the config file located in app/config/eventful.php. I recommend you add this key to your project .env file instead of directly adding it to your config file.
