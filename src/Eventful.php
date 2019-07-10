@@ -74,9 +74,9 @@ Class Eventful implements EventfulInterface
         // when there's no json that's an error
         $data = empty($raw_json)
         ? false
-        : empty($raw_json['results']['0'])
+        : empty($raw_json['events'])
         ? array()
-        : $raw_json['results']['0'];
+        : $raw_json['events'];
 
         return $data;
     }
